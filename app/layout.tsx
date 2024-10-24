@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import SessionProvider from "@/app/SessionProvider";
 import { getSession } from "@/auth";
+import Navbar from "@/components/Navbar";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { Inter } from "next/font/google";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -28,8 +24,15 @@ export default async function RootLayout({
   const session = await getSession();
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+      <body className={inter.className}>
+        <SessionProvider session={session}>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+            <div className="flex h-screen w-full flex-col ">
+              <Navbar />
+              <main>{children}</main>
+            </div>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
