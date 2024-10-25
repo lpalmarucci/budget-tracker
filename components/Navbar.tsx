@@ -89,7 +89,6 @@ function MobileNavbar() {
 function NavbarItem({ link, label }: NavbarItemType) {
   const pathname = usePathname();
   const isActive = pathname === link;
-  console.log({ isActive });
   return (
     <div className="relative flex items-center">
       <Link
