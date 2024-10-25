@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SessionProvider from "@/components/providers/SessionProvider";
 import { getSession } from "@/auth";
-import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Inter } from "next/font/google";
 
@@ -27,10 +26,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <SessionProvider session={session}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-            <div className="flex h-screen w-full flex-col ">
-              <Navbar />
-              <main>{children}</main>
-            </div>
+            {children}
           </ThemeProvider>
         </SessionProvider>
       </body>
