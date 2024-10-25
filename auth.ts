@@ -30,21 +30,20 @@ const authOptions: AuthOptions = {
     Credentials({
       name: "Credentials",
       credentials: {
-        email: {},
         username: {},
         password: {},
       },
       async authorize(credentials) {
         // check to see if email and password is there
-        if (!credentials?.email || !credentials?.password) {
+        if (!credentials?.username || !credentials?.password) {
           throw new Error("Please enter an email and password");
         }
 
         // check to see if user exists
 
-        const user = await db.user.findUnique({
+        const user = await db.user.findFirst({
           where: {
-            email: credentials?.email,
+            username: credentials.username,
           },
         });
 

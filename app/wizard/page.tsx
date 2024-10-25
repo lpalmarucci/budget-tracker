@@ -18,8 +18,10 @@ export default async function WizardPage() {
         <h1 className="text-3xl">
           Welcome, <b className="leading-tight tracking-tighter">{session.user?.name?.split(" ").at(0)}! 👋🏼</b>
         </h1>
-        <span className="text-muted-foreground">Let's get started by setting up your currency.</span>
-        <span className="text-muted-foreground">You can change these settings any time later</span>
+        <div className="w-full flex flex-col gap-2 justify-center items-center leading-4">
+          <span className="text-muted-foreground">Let's get started by setting up your currency.</span>
+          <span className="text-muted-foreground">You can change these settings any time later</span>
+        </div>
       </div>
       <Separator />
       <div className="w-full flex flex-col gap-4">

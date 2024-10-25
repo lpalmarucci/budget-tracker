@@ -19,7 +19,7 @@ export async function updateUserCurrency({ userId, currency }: UserSettings): Pr
 
   return db.userSettings.update({
     where: {
-      userId: "1",
+      userId: session.user.id,
     },
     data: {
       currency,

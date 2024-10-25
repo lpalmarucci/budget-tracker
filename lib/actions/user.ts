@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 
 export async function createUser(prevState: any, formData: FormData) {
   const body = {
-    email: formData.get("email"),
+    username: formData.get("username"),
     password: formData.get("password"),
     name: formData.get("name"),
   } as z.infer<typeof SignupSchema>;
@@ -16,19 +16,19 @@ export async function createUser(prevState: any, formData: FormData) {
   const parsedBody = SignupSchema.safeParse(body);
   if (!parsedBody.success) throw parsedBody.error;
 
-  const user = await db.user.findUnique({
+  const user = await db.user.findMany({
     where: {
-      email: body.email as string,
+      username: body.username as string,
     },
   });
 
-  if (user) throw new Error("User already exists");
+  if (!user || user.length > 0) throw new Error("User already exists");
 
   const hashedPassword = await bcrypt.hash(body.password, 10);
 
   await db.user.create({
     data: {
-      email: body.email,
+      username: body.username,
       name: body.name,
       password: hashedPassword,
     },
