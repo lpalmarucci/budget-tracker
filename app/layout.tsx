@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import SessionProvider from "@/app/SessionProvider";
+import SessionProvider from "@/components/providers/SessionProvider";
 import { getSession } from "@/auth";
 import Navbar from "@/components/Navbar";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Inter } from "next/font/google";
 
 const inter = Inter({
