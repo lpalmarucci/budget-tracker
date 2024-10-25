@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import Logo from "@/components/Logo";
 import { Separator } from "@/components/ui/separator";
 import { CurrencyComboBox } from "@/components/CurrencyComboBox";
+import Link from "next/link";
 
-export default async function WizardPAge() {
+export default async function WizardPage() {
   const session = await getSession();
 
   if (!session) return redirect("/api/auth/signin");
@@ -31,7 +32,9 @@ export default async function WizardPAge() {
             <CurrencyComboBox />
           </CardContent>
         </Card>
-        <Button className="w-full">I'm done! take me to the dashboard</Button>
+        <Link href="/" className="w-full">
+          <Button className="w-full">I'm done! take me to the dashboard</Button>
+        </Link>
       </div>
       <Logo />
     </div>

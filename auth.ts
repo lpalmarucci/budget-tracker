@@ -5,6 +5,18 @@ import db from "@/lib/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import * as bcrypt from "bcrypt";
 
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      email: string;
+      name: string;
+      image: string;
+      [key: string]: string;
+    };
+  }
+}
+
 const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
@@ -29,6 +41,7 @@ const authOptions: AuthOptions = {
         }
 
         // check to see if user exists
+
         const user = await db.user.findUnique({
           where: {
             email: credentials?.email,
@@ -52,17 +65,11 @@ const authOptions: AuthOptions = {
       },
     }),
   ],
-  // callbacks: {
-  //   async redirect({ url, baseUrl }) {
-  //     const userSettings = await db.userSettings.findFirst({
-  //       where: {
-  //         userId: account.userId,
-  //       },
-  //     });
-  //     if (!userSettings) return "/wizard";
-  //     return url;
-  //   },
-  // },
+  callbacks: {
+    async session({ session, token }) {
+      return { ...session, user: { ...session.user, id: token.sub } };
+    },
+  },
   pages: {
     signIn: "/auth/signin",
     newUser: "/wizard",

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useEffect } from "react";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Button } from "@/components/ui/button";
@@ -12,12 +13,14 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { updateUserCurrency } from "@/lib/actions/userSettings";
 import { UserSettings } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 export function CurrencyComboBox() {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [selectedCurrency, setSelectedCurrency] = React.useState<Currency | null>(null);
+  const [selectedCurrency, setSelectedCurrency] = React.useState<Currency | null>();
   const { toast } = useToast();
+  const session = useSession();
 
   const { data, isFetching } = useQuery<UserSettings>({
     queryKey: ["userSettings"],
@@ -31,7 +34,7 @@ export function CurrencyComboBox() {
       setSelectedCurrency(CURRENCIES.find((c) => c.value === data.currency) || null);
     },
     onError: (err) => {
-      toast({ description: "Something went wrong", variant: "destructive" });
+      toast({ description: "Something went wrong ❌", variant: "destructive" });
     },
   });
 
@@ -43,10 +46,16 @@ export function CurrencyComboBox() {
       }
       toast({ description: "Updating currency...", itemID: "update-currency" });
 
-      mutation.mutate({ userId: "1", currency: currency.value });
+      mutation.mutate({ userId: session.data?.user.id!, currency: currency.value });
     },
     [mutation],
   );
+
+  useEffect(() => {
+    if (!data) return;
+    const userCurrency = CURRENCIES.find((c) => c.value === data.currency);
+    if (userCurrency) setSelectedCurrency(userCurrency);
+  }, [data]);
 
   if (isDesktop) {
     return (
@@ -57,7 +66,7 @@ export function CurrencyComboBox() {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0" align="start">
-          <OptionList setOpen={setOpen} setSelectedOption={setSelectedCurrency} />
+          <OptionList setOpen={setOpen} setSelectedOption={selectOption} />
         </PopoverContent>
       </Popover>
     );
@@ -72,7 +81,7 @@ export function CurrencyComboBox() {
       </DrawerTrigger>
       <DrawerContent>
         <div className="mt-4 border-t">
-          <OptionList setOpen={setOpen} setSelectedOption={setSelectedCurrency} />
+          <OptionList setOpen={setOpen} setSelectedOption={selectOption} />
         </div>
       </DrawerContent>
     </Drawer>
