@@ -4,6 +4,8 @@ import SessionProvider from "@/components/providers/SessionProvider";
 import { getSession } from "@/auth";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Inter } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster";
+import { TanstackProvider } from "@/components/providers/TanstackProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,9 +27,12 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <SessionProvider session={session}>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-            {children}
-          </ThemeProvider>
+          <TanstackProvider>
+            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+              <Toaster />
+              {children}
+            </ThemeProvider>
+          </TanstackProvider>
         </SessionProvider>
       </body>
     </html>
