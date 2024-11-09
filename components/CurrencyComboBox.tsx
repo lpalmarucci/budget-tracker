@@ -22,7 +22,7 @@ export function CurrencyComboBox() {
   const { toast } = useToast();
   const session = useSession();
 
-  const { data, isFetching } = useQuery<UserSettings>({
+  const { data, isFetching, isFetched } = useQuery<UserSettings>({
     queryKey: ["userSettings"],
     queryFn: () => fetch("/api/user-settings").then((res) => res.json()),
   });

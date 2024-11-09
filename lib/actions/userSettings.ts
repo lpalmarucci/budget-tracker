@@ -26,3 +26,11 @@ export async function updateUserCurrency({ userId, currency }: UserSettings): Pr
     },
   });
 }
+
+export async function getUserSettings(userId: string) {
+  const session = await getSession();
+
+  if (!session) redirect("/api/auth/sign-in");
+
+  return db.userSettings.findUnique({ where: { userId } });
+}

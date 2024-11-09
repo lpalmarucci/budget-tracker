@@ -58,7 +58,7 @@ function LoginForm() {
       </CardHeader>
       <CardContent className="px-8">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form id="login-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="username"
@@ -85,7 +85,7 @@ function LoginForm() {
                 </FormItem>
               )}
             />
-            <SubmitButton loading={isPending} disabled={!form.formState.isValid}>
+            <SubmitButton formId="login-form" loading={isPending} disabled={!form.formState.isValid}>
               Sign in
             </SubmitButton>
           </form>

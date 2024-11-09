@@ -6,11 +6,16 @@ import Logo from "@/components/Logo";
 import { Separator } from "@/components/ui/separator";
 import { CurrencyComboBox } from "@/components/CurrencyComboBox";
 import Link from "next/link";
+import { getUserSettings } from "@/lib/actions/userSettings";
 
 export default async function WizardPage() {
   const session = await getSession();
 
   if (!session) return redirect("/api/auth/signin");
+
+  const userSettings = await getUserSettings(session.user.id);
+
+  if (userSettings) redirect("/");
 
   return (
     <div className="container flex px-6 md:px-0 max-w-2xl flex-col items-center gap-8">

@@ -1,7 +1,6 @@
 "use server";
 
-import SignupSchema from "@/lib/schema/Signup.schema";
-import * as z from "zod";
+import SignupSchema, { type SignupSchemaType } from "@/lib/schema/Signup.schema";
 import db from "@/lib/db";
 import * as bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
@@ -11,7 +10,7 @@ export async function createUser(prevState: any, formData: FormData) {
     username: formData.get("username"),
     password: formData.get("password"),
     name: formData.get("name"),
-  } as z.infer<typeof SignupSchema>;
+  } as SignupSchemaType;
 
   const parsedBody = SignupSchema.safeParse(body);
   if (!parsedBody.success) throw parsedBody.error;

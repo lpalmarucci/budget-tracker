@@ -32,7 +32,7 @@ export function SignUpForm() {
       </CardHeader>
       <CardContent className="px-8">
         <Form {...form}>
-          <form action={formAction} className="space-y-4">
+          <form id="signup-form" action={formAction} className="space-y-4">
             <FormField
               control={form.control}
               name="name"
@@ -72,7 +72,9 @@ export function SignUpForm() {
                 </FormItem>
               )}
             />
-            <SubmitButton disabled={!form.formState.isValid}>Create</SubmitButton>
+            <SubmitButton formId="signup-form" disabled={!form.formState.isValid}>
+              Create
+            </SubmitButton>
           </form>
         </Form>
       </CardContent>

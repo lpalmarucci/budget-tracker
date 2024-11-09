@@ -6,4 +6,6 @@ const SignupSchema = z.object({
   password: z.string().min(8),
 });
 
+export type SignupSchemaType = z.infer<typeof SignupSchema>;
+
 export default SignupSchema;
