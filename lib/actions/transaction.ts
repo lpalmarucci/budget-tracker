@@ -2,7 +2,6 @@
 
 import { getSession } from "@/auth";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { TransactionSchema, TransactionSchemaType } from "@/lib/schema/Transaction.schema";
 import db from "@/lib/db";
 import { TransactionType } from "@/lib/types";
@@ -19,18 +18,69 @@ export async function createTransaction({ body, type }: { body: TransactionSchem
     return;
   }
 
-  const transaction = await db.transaction.create({
-    data: {
-      userId: session.user.id,
-      amount: body.amount,
-      type,
-      category: body.category,
-      categoryIcon: "",
-      description: body.description,
-      date: body.date,
-    },
-  });
+  const { description, amount, category, categoryIcon, date } = body;
 
-  revalidatePath("/");
-  return transaction;
+  await db.$transaction([
+    db.transaction.create({
+      data: {
+        userId: session.user.id,
+        amount: amount,
+        type,
+        category: category,
+        categoryIcon: categoryIcon,
+        description: description,
+        date: date,
+      },
+    }),
+    db.monthHistory.upsert({
+      create: {
+        userId: session.user.id,
+        expense: type === "expense" ? amount : 0,
+        income: type === "income" ? amount : 0,
+        day: date.getUTCDay(),
+        month: date.getUTCMonth(),
+        year: date.getUTCFullYear(),
+      },
+      where: {
+        day_month_year_userId: {
+          userId: session.user.id,
+          day: date.getUTCDay(),
+          month: date.getUTCMonth(),
+          year: date.getUTCFullYear(),
+        },
+      },
+      update: {
+        expense: {
+          increment: type === "expense" ? amount : 0,
+        },
+        income: {
+          increment: type === "income" ? amount : 0,
+        },
+      },
+    }),
+    db.yearHistory.upsert({
+      create: {
+        userId: session.user.id,
+        expense: type === "expense" ? amount : 0,
+        income: type === "income" ? amount : 0,
+        month: date.getUTCMonth(),
+        year: date.getUTCFullYear(),
+      },
+      where: {
+        month_year_userId: {
+          userId: session.user.id,
+          month: date.getUTCMonth(),
+          year: date.getUTCFullYear(),
+        },
+      },
+      update: {
+        expense: {
+          increment: type === "expense" ? amount : 0,
+        },
+        income: {
+          increment: type === "income" ? amount : 0,
+        },
+      },
+    }),
+  ]);
 }

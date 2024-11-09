@@ -15,7 +15,7 @@ import { Skeleton } from "../ui/skeleton";
 
 interface CategoryPickerProps {
   type: TransactionType;
-  onSelectCategory: (val: string) => void;
+  onSelectCategory: (val: Category | null) => void;
 }
 
 function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
@@ -27,11 +27,10 @@ function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
   const [value, setValue] = useState("");
 
   React.useEffect(() => {
-    console.log({ value });
-    onSelectCategory(value);
+    onSelectCategory(selectedCategory);
   }, [value]);
 
-  const selectedCategory = data?.find((c) => c.name === value);
+  const selectedCategory = data?.find((c) => c.name === value) ?? null;
 
   if (isFetching) return <Skeleton className="w-[200px] h-[40px]" />;
 
