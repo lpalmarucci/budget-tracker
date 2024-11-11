@@ -4,6 +4,7 @@ import { useState } from "react";
 import { DateRange } from "react-day-picker";
 import StatsCards from "@/components/overview/StatsCards";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
+import CategoriesStats from "@/components/overview/CategoriesStats";
 
 export function Overview() {
   const [date, setDate] = useState<DateRange>({
@@ -27,6 +28,7 @@ export function Overview() {
         />
       </div>
       <StatsCards from={date.from} to={date.to} />
+      <CategoriesStats from={date.from} to={date.to} />
     </div>
   );
 }
