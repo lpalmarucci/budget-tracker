@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import CreateTransactionDialog from "@/components/CreateTransactionDialog";
 import db from "@/lib/db";
+import { Overview } from "@/components/overview/Overview";
 
 export default async function Home() {
   const session = await getSession();
@@ -42,6 +43,9 @@ export default async function Home() {
             />
           </div>
         </div>
+      </div>
+      <div className="container w-full mx-auto px-4 py-8">
+        <Overview />
       </div>
       {/*<AuthButton />*/}
     </div>

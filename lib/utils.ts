@@ -12,3 +12,12 @@ export function formatDate(date: Date, formatStr?: string) {
     locale: it,
   });
 }
+
+export function formatCurrency(value: string | number, currency?: string) {
+  return new Intl.NumberFormat("it-IT", {
+    style: "currency",
+    currency: currency ?? "EUR",
+    currencyDisplay: "symbol",
+    currencySign: "accounting",
+  }).format(Number(value));
+}

@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { cn, formatDate } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "@/components/ui/calendar";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
 
 interface TransactionFormProps {
@@ -36,11 +36,20 @@ export function TransactionForm({ type, onTransactionCreated }: TransactionFormP
     },
   });
 
+  const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: createTransaction,
     onSuccess: () => {
-      toast({ variant: "success", description: "Transaction added successfully 🎉", itemID: "create-transaction" });
+      toast({
+        variant: "success",
+        description: "Transaction added successfully 🎉",
+        itemID: "create-transaction",
+        duration: 2000,
+      });
       form.reset();
+
+      queryClient.invalidateQueries({ queryKey: ["overview"] });
       onTransactionCreated?.();
     },
     onError: (err) => {
