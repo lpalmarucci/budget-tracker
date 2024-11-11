@@ -25,7 +25,7 @@ function StatsCards({ from, to }: StatsCardsProps) {
   }
 
   return (
-    <div className="flex gap-2 justify-center items-center">
+    <div className="flex gap-2 flex-wrap md:flex-nowrap justify-center items-center">
       <StatsCard
         title="Income"
         amount={data?.income ?? 0}
