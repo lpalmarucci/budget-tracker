@@ -58,7 +58,7 @@ function CategoryStat({ type, data, loading }: CategoryStatProp) {
                   <div className="flex gap-2 items-center">
                     <em-emoji shortcodes={c.categoryIcon} size="10" />
                     <span>{c.category}</span>
-                    <span className="text-xs text-muted-foreground mt-1">({percentage}%)</span>
+                    <span className="text-xs text-muted-foreground mt-1">({percentage.toFixed(0)}%)</span>
                   </div>
                   <span className="text-sm text-muted-foreground">{formatCurrency(c._sum.amount ?? 0)}</span>
                 </div>

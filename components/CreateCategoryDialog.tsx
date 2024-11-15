@@ -12,6 +12,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import SubmitButton from "@/components/SubmitButton";
 import * as React from "react";
+import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import EmojiPicker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
@@ -22,11 +23,12 @@ import { CheckIcon } from "@radix-ui/react-icons";
 
 interface CreateCategoryDialogProps {
   type: CategorySchemaType["type"];
+  onCreate: (name: string) => void;
 }
 
-function CreateCategoryDialog({ type }: CreateCategoryDialogProps) {
+function CreateCategoryDialog({ type, onCreate }: CreateCategoryDialogProps) {
   const form = useForm<CategorySchemaType>({
-    mode: "onChange",
+    mode: "onSubmit",
     resolver: zodResolver(CategorySchema),
     defaultValues: {
       name: "",
@@ -34,12 +36,17 @@ function CreateCategoryDialog({ type }: CreateCategoryDialogProps) {
       type,
     },
   });
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: createCategory,
-    onSuccess: (d) => {
+    onSuccess: (cat) => {
+      if (!cat) {
+        return;
+      }
+
       form.reset({ name: "", icon: undefined });
 
       toast({
@@ -49,6 +56,9 @@ function CreateCategoryDialog({ type }: CreateCategoryDialogProps) {
       });
 
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+
+      setIsDialogOpen(false);
+      onCreate(cat.name);
     },
     onError: (err) => {
       toast({
@@ -63,7 +73,7 @@ function CreateCategoryDialog({ type }: CreateCategoryDialogProps) {
   }
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
           <PlusIcon /> create category

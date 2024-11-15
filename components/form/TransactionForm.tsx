@@ -25,7 +25,6 @@ interface TransactionFormProps {
 
 export function TransactionForm({ type, onTransactionCreated }: TransactionFormProps) {
   const form = useForm<TransactionSchemaType>({
-    mode: "onSubmit",
     resolver: zodResolver(TransactionSchema),
     defaultValues: {
       description: "",
@@ -103,9 +102,7 @@ export function TransactionForm({ type, onTransactionCreated }: TransactionFormP
                   <CategoryPicker
                     type={type}
                     onSelectCategory={(val) => {
-                      console.log({ val });
                       if (!val) return;
-                      form.setValue("category", val.name);
                       form.setValue("categoryIcon", val.icon);
                       field.onChange(val.name);
                     }}

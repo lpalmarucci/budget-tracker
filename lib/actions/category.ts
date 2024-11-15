@@ -24,7 +24,7 @@ export async function createCategory({ type, icon, name }: CategorySchemaType) {
     },
   });
 
-  if (cat) return { message: `A category with name ${name} already exists` };
+  if (cat) throw new Error(`A category with name ${name} already exists`);
 
   return db.category.create({
     data: {

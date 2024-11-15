@@ -26,11 +26,12 @@ function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState("");
 
+  const selectedCategory = data?.find((c) => c.name === value) ?? null;
+
   React.useEffect(() => {
     onSelectCategory(selectedCategory);
-  }, [value]);
+  }, [selectedCategory]);
 
-  const selectedCategory = data?.find((c) => c.name === value) ?? null;
 
   if (isFetching) return <Skeleton className="w-[200px] h-[40px]" />;
 
@@ -47,9 +48,17 @@ function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
-        <Command>
+        <Command onSubmit={(e) => {
+          e.stopPropagation()
+        }}>
           <CommandInput placeholder="Search category..." />
-          <CreateCategoryDialog type={type} />
+          <CreateCategoryDialog
+            type={type}
+            onCreate={(newCategoryName: string) => {
+              setValue(newCategoryName);
+              setOpen(false);
+            }}
+          />
           <CommandList>
             <CommandEmpty>No Category found.</CommandEmpty>
             {data?.map((category) => (
@@ -77,7 +86,7 @@ export default CategoryPicker;
 
 function CategoryRow({ category }: { category: Category }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 truncate">
       <span role="img">
         <em-emoji shortcodes={category.icon} size="20"></em-emoji>
       </span>
