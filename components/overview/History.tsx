@@ -28,7 +28,6 @@ function History() {
       fetch(`/api/history?timeframe=${timeframe}&year=${period.year}&month=${period.month}`).then((res) => res.json()),
   });
 
-  console.log({ data });
   return (
     <div className="flex flex-col gap-2">
       <span className="tracking-wide font-semibold text-xl">History</span>
