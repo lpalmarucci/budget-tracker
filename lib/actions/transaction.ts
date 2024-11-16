@@ -37,16 +37,16 @@ export async function createTransaction({ body, type }: { body: TransactionSchem
         userId: session.user.id,
         expense: type === "expense" ? amount : 0,
         income: type === "income" ? amount : 0,
-        day: date.getUTCDay(),
-        month: date.getUTCMonth(),
-        year: date.getUTCFullYear(),
+        day: date.getDate(),
+        month: date.getMonth(),
+        year: date.getFullYear(),
       },
       where: {
         day_month_year_userId: {
           userId: session.user.id,
-          day: date.getUTCDay(),
-          month: date.getUTCMonth(),
-          year: date.getUTCFullYear(),
+          day: date.getDate(),
+          month: date.getMonth(),
+          year: date.getFullYear(),
         },
       },
       update: {
@@ -63,14 +63,14 @@ export async function createTransaction({ body, type }: { body: TransactionSchem
         userId: session.user.id,
         expense: type === "expense" ? amount : 0,
         income: type === "income" ? amount : 0,
-        month: date.getUTCMonth(),
-        year: date.getUTCFullYear(),
+        month: date.getMonth(),
+        year: date.getFullYear(),
       },
       where: {
         month_year_userId: {
           userId: session.user.id,
-          month: date.getUTCMonth(),
-          year: date.getUTCFullYear(),
+          month: date.getMonth(),
+          year: date.getFullYear(),
         },
       },
       update: {

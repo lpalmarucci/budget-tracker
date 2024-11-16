@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import CreateTransactionDialog from "@/components/CreateTransactionDialog";
 import db from "@/lib/db";
 import { Overview } from "@/components/overview/Overview";
+import History from "@/components/overview/History";
 
 export default async function Home() {
   const session = await getSession();
@@ -44,8 +45,9 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <div className="container w-full mx-auto px-4 py-8">
+      <div className="container w-full mx-auto px-4 py-8 flex flex-col gap-8">
         <Overview />
+        <History />
       </div>
       {/*<AuthButton />*/}
     </div>

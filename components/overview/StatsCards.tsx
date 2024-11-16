@@ -5,6 +5,7 @@ import { formatCurrency } from "@/lib/utils";
 import { TrendingDown, TrendingUp, Wallet } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { GetBalanceStatusType } from "@/app/api/stats/balance/route";
+import CountUp from "react-countup";
 
 interface StatsCardsProps {
   from?: Date;
@@ -69,7 +70,7 @@ function StatsCard({
         {loading ? (
           <Skeleton className="h-7 w-full" />
         ) : (
-          <span className="text-xl font-semibold">{formatCurrency(amount)}</span>
+          <CountUp end={amount} className="text-xl font-semibold" duration={1} formattingFn={formatCurrency} />
         )}
       </div>
     </div>
