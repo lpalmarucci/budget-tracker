@@ -49,7 +49,6 @@ export default async function Home() {
         <Overview />
         <History />
       </div>
-      {/*<AuthButton />*/}
     </div>
   );
 }
