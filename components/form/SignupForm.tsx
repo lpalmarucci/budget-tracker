@@ -14,7 +14,6 @@ import SubmitButton from "@/components/SubmitButton";
 
 export function SignUpForm() {
   const form = useForm<z.infer<typeof SignupSchema>>({
-    mode: "onChange",
     resolver: zodResolver(SignupSchema),
     defaultValues: {
       name: "",

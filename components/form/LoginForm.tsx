@@ -38,6 +38,7 @@ function LoginForm() {
           toast({
             description: res.error,
             variant: "destructive",
+            duration: 2000,
           });
         }
         router.push("/");
@@ -46,6 +47,7 @@ function LoginForm() {
         toast({
           description: err.message,
           variant: "destructive",
+          duration: 2000,
         });
         setIsPending(false);
       });

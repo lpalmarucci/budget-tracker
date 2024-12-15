@@ -33,7 +33,7 @@ function History() {
       <span className="tracking-wide font-semibold text-xl">History</span>
       <Card>
         <CardHeader>
-          <div className="w-full flex items-center justify-between">
+          <div className="w-full flex flex-wrap gap-y-4 items-center justify-between">
             <HistoryPeriodSelector
               period={period}
               setPeriod={setPeriod}

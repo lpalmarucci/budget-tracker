@@ -6,6 +6,7 @@ import { MONTHS } from "@/lib/costants";
 import { type Dispatch, type SetStateAction, useCallback } from "react";
 import { addYears, subYears } from "date-fns";
 import SkeletonWrapper from "@/components/SkeletonWrapper";
+import { cn } from "@/lib/utils";
 
 export type TimeframeHistoryType = "year" | "month";
 
@@ -20,16 +21,24 @@ interface HistoryPeriodSelectorProps {
   period: PeriodHistoryType;
   setPeriod: Dispatch<SetStateAction<PeriodHistoryType>>;
   isLoading: boolean;
+  className?: string;
 }
 
-function HistoryPeriodSelector({ timeframe, setTimeframe, period, setPeriod, isLoading }: HistoryPeriodSelectorProps) {
+function HistoryPeriodSelector({
+  className,
+  timeframe,
+  setTimeframe,
+  period,
+  setPeriod,
+  isLoading,
+}: HistoryPeriodSelectorProps) {
   const getYearsOptions = useCallback(() => {
     const now = new Date();
     return [subYears(now, 1).getFullYear(), now.getFullYear(), addYears(now, 1).getFullYear()];
   }, []);
 
   return (
-    <div className="flex gap-6 items-center">
+    <div className={cn(className, "flex gap-6 items-center")}>
       <Tabs
         onValueChange={(val) => setTimeframe(val as TimeframeHistoryType)}
         defaultValue={timeframe}

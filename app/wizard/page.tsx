@@ -15,7 +15,7 @@ export default async function WizardPage() {
 
   const userSettings = await getUserSettings(session.user.id);
 
-  if (userSettings) redirect("/");
+  if (userSettings) return redirect("/");
 
   return (
     <div className="container flex px-6 md:px-0 max-w-2xl flex-col items-center gap-8">
@@ -39,7 +39,7 @@ export default async function WizardPage() {
             <CurrencyComboBox />
           </CardContent>
         </Card>
-        <Link href="/" className="w-full">
+        <Link href="/" replace={true} className="w-full">
           <Button className="w-full">I'm done! take me to the dashboard</Button>
         </Link>
       </div>

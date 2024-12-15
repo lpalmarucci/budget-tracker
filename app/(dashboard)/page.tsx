@@ -15,12 +15,12 @@ export default async function Home() {
     where: { userId: session.user.id },
   });
 
-  if (!userSettings) redirect("/wizard");
+  if (!userSettings) return redirect("/wizard");
 
   return (
     <div className="h-full bg-card">
       <div className="border-b bg-card">
-        <div className="container mx-auto w-full h-full flex flex-wrap justify-between items-center gap-6 py-8">
+        <div className="container px-4 mx-auto w-full h-full flex flex-wrap justify-between items-center gap-6 py-8">
           <span className="text-2xl font-bold">Hello, {session.user?.name}! 👋🏼</span>
           <div className="flex w-full md:w-fit items-center gap-4">
             <CreateTransactionDialog
