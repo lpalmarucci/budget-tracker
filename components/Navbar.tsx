@@ -8,6 +8,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import LogoutButton from "@/components/LogoutButton";
 
 type NavbarItemType = {
   label: string;
@@ -40,15 +41,18 @@ function Navbar() {
 
 function DesktopNavbar() {
   return (
-    <div className="hidden border-separate border-b md:block">
+    <div className="hidden border-separate border-b lg:block">
       <nav className="container mx-auto flex items-center justify-between px-8">
-        <div className="flex h-[80px] min-h-[60px] items-center gap-x-4">
-          <Logo />
-          <div className="flex h-full ml-8">
-            {ITEMS.map((item) => (
-              <NavbarItem key={item.link} {...item} />
-            ))}
+        <div className="w-full flex h-[80px] min-h-[60px] items-center gap-x-4 justify-between">
+          <div className="w-full flex items-center gap-x-4">
+            <Logo />
+            <div className="flex h-full ml-8">
+              {ITEMS.map((item) => (
+                <NavbarItem key={item.link} {...item} />
+              ))}
+            </div>
           </div>
+          <LogoutButton />
         </div>
       </nav>
     </div>
@@ -59,28 +63,32 @@ function MobileNavbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <div className="block md:hidden w-full border-separate">
-      <nav className="container flex gap-4 items-center px-8">
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Menu />
-            </Button>
-          </SheetTrigger>
-          <SheetTitle></SheetTitle>
-          <SheetContent side="left">
+    <div className="block lg:hidden w-full border-separate">
+      <nav className="container w-full flex gap-4 items-center justify-between mx-auto px-4">
+        <div className="flex items-center gap-4">
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu />
+              </Button>
+            </SheetTrigger>
+            <SheetTitle></SheetTitle>
+            <SheetContent side="left" className="flex flex-col justify-between">
+              <div className="flex flex-col w-full h-full">
+                <Logo />
+                <div className="flex flex-col gap-1 pt-4">
+                  {ITEMS.map((item) => (
+                    <NavbarItem key={item.link} {...item} />
+                  ))}
+                </div>
+              </div>
+              <LogoutButton />
+            </SheetContent>
+          </Sheet>
+          <div className="flex h-[80px] min-h-[60px] items-center gap-4">
             <Logo />
-            <div className="flex flex-col gap-1 pt-4">
-              {ITEMS.map((item) => (
-                <NavbarItem key={item.link} {...item} />
-              ))}
-            </div>
-          </SheetContent>
-        </Sheet>
-        <div className="flex h-[80px] min-h-[60px] items-center gap-4">
-          <Logo />
+          </div>
         </div>
-        {/*<UserButton />*/}
       </nav>
     </div>
   );
