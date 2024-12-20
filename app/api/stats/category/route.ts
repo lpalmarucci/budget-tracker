@@ -1,7 +1,7 @@
 import { getSession } from "@/auth";
 import { NextResponse } from "next/server";
 import db from "@/lib/db";
-import { OverviewSchema } from "@/lib/schema/overview.schema";
+import { DateRangeSchema } from "@/lib/schema/date-range.schema";
 import { endOfDay, startOfDay } from "date-fns";
 
 export async function GET(req: Request) {
@@ -17,7 +17,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ message: "Provide a valid date range 📅" });
   }
 
-  const safeParse = OverviewSchema.safeParse({ from, to });
+  const safeParse = DateRangeSchema.safeParse({ from, to });
   if (!safeParse.success) return NextResponse.json({ message: safeParse.error.message }, { status: 400 });
 
   const data = await getCategoriesStats(session.user.id, startOfDay(from), endOfDay(to));
