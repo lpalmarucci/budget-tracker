@@ -20,13 +20,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ message: safeParse.error.message }, { status: 400 });
   }
 
-  // const categories = await db.category.findMany({
-  //   where: {
-  //     userId: session.user.id,
-  //     ...(type && { type }),
-  //   },
-  // });
-
   const transactions = await getTransactions(safeParse.data.from, safeParse.data.to);
   return NextResponse.json(transactions);
 }

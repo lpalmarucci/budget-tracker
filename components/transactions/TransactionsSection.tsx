@@ -15,7 +15,7 @@ function TransactionsSection() {
     to: new Date(),
   });
 
-  const { data, isFetching, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["transactions", date],
     queryFn: () =>
       fetch(`/api/transactions?from=${date.from?.toUTCString()}&to=${date.to?.toUTCString()}`).then((res) =>

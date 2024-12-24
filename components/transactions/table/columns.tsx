@@ -9,6 +9,9 @@ export const columns: ColumnDef<Transaction>[] = [
     id: "category",
     accessorKey: "category",
     header: "Category",
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
     cell: ({ row }) => (
       <div className="text-left font-medium flex gap-2 items-center">
         <em-emoji shortcodes={row.original.categoryIcon} size={"20"} />
@@ -31,6 +34,9 @@ export const columns: ColumnDef<Transaction>[] = [
     id: "type",
     accessorKey: "type",
     header: "Type",
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
     cell: ({ row }) => {
       const type = row.getValue("type") as TransactionType;
 
