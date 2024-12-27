@@ -3,6 +3,7 @@ import { Transaction } from "@prisma/client";
 import { cn, formatCurrency, formatDate } from "@/lib/utils";
 import { TransactionType } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
+import { RowActions } from "@/components/transactions/table/index";
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -58,5 +59,12 @@ export const columns: ColumnDef<Transaction>[] = [
     accessorKey: "amount",
     header: "Amount",
     cell: ({ row }) => <span>{formatCurrency(row.getValue("amount"))}</span>,
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const transaction = row.original;
+      return <RowActions id={transaction.id} />;
+    },
   },
 ];
