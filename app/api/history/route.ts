@@ -23,7 +23,7 @@ export async function GET(request: Request) {
   const month = Number(searchParams.get("month"));
   const year = Number(searchParams.get("year"));
 
-  if (!timeframe || (timeframe === "month" && !month) || (timeframe === "year" && (!year || !month)))
+  if (!timeframe || (timeframe === "month" && isNaN(month)) || (timeframe === "year" && (!year || isNaN(month))))
     throw new Error("Check the provided month or year");
 
   const data = await getHistoryData(session.user.id, timeframe, year, month);
