@@ -9,14 +9,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
+interface IFacetedFilterOption {
+  icon?: string;
+  label: string;
+  value: string;
+}
+
 interface FacetedFilterProps<TData> {
   title: string;
   column?: Column<TData>;
-  options: {
-    icon?: string;
-    label: string;
-    value: string;
-  }[];
+  options: IFacetedFilterOption[];
 }
 
 function FacetedFilter<TData extends unknown>({ title, column, options }: FacetedFilterProps<TData>) {
@@ -78,7 +80,8 @@ function FacetedFilter<TData extends unknown>({ title, column, options }: Facete
                         if (checked) selectedValues.add(value);
                         else selectedValues.delete(value);
                         const filterValues = Array.from(selectedValues);
-                        column?.setFilterValue(filterValues);
+                        if (filterValues.length) column?.setFilterValue(filterValues);
+                        else column?.setFilterValue(undefined);
                       }}
                     />
                     {icon && <em-emoji shortcodes={icon} size="20" />}

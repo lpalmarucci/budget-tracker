@@ -10,7 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { type Dispatch, type PropsWithChildren, type SetStateAction, useEffect } from "react";
+import { type Dispatch, type PropsWithChildren, type SetStateAction } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteTransaction } from "@/lib/actions/transaction";
 import { toast } from "sonner";
@@ -23,12 +23,6 @@ interface AlertDialogProps extends PropsWithChildren {
 
 function DeleteTransactionDialog({ transactionId, open, setOpen, children }: AlertDialogProps) {
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    toast.success("Transaction deleted successfully", {
-      id: transactionId,
-    });
-  }, []);
 
   const deleteMutation = useMutation({
     mutationFn: deleteTransaction,
@@ -54,18 +48,18 @@ function DeleteTransactionDialog({ transactionId, open, setOpen, children }: Ale
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your account and remove your data from our
-            servers.
+            This action cannot be undone. This will permanently delete the expense from our system.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
+              toast.message("Deleting...", { id: transactionId });
               deleteMutation.mutate(transactionId);
             }}
           >
-            Continue
+            Confirm
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
