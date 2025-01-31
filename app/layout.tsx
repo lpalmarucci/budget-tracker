@@ -5,6 +5,7 @@ import { getSession } from "@/auth";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as SonnerRoot } from "@/components/ui/sonner";
 import { TanstackProvider } from "@/components/providers/TanstackProvider";
 
 const inter = Inter({
@@ -30,6 +31,7 @@ export default async function RootLayout({
           <TanstackProvider>
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
               <Toaster />
+              <SonnerRoot />
               {children}
             </ThemeProvider>
           </TanstackProvider>
