@@ -84,3 +84,79 @@ export async function createTransaction({ body, type }: { body: TransactionSchem
     }),
   ]);
 }
+
+export async function deleteTransaction(id: string) {
+  if (!id) throw new Error("Provide a transaction id");
+
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/auth/signin");
+    return;
+  }
+
+  const transaction = await db.transaction.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      date: true,
+      type: true,
+      amount: true,
+    },
+  });
+
+  if (!transaction) {
+    throw new Error(`Transcation not found for id ${id}`);
+  }
+
+  const { date, type, amount } = transaction;
+
+  await db.$transaction([
+    db.transaction.delete({
+      where: {
+        id,
+      },
+      select: {
+        date: true,
+        type: true,
+        amount: true,
+      },
+    }),
+    db.monthHistory.update({
+      where: {
+        day_month_year_userId: {
+          day: date.getDate(),
+          month: date.getMonth(),
+          year: date.getFullYear(),
+          userId: session.user.id,
+        },
+      },
+      data: {
+        expense: {
+          decrement: type === "expense" ? amount : 0,
+        },
+        income: {
+          decrement: type === "income" ? amount : 0,
+        },
+      },
+    }),
+    db.yearHistory.update({
+      where: {
+        month_year_userId: {
+          month: date.getMonth(),
+          year: date.getFullYear(),
+          userId: session.user.id,
+        },
+      },
+      data: {
+        expense: {
+          decrement: type === "expense" ? amount : 0,
+        },
+        income: {
+          decrement: type === "income" ? amount : 0,
+        },
+      },
+    }),
+  ]);
+}

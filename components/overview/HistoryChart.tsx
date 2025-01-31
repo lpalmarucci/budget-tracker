@@ -1,10 +1,11 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, TooltipProps, XAxis, YAxis } from "recharts";
 import { HistoryData } from "@/app/api/history/route";
 import { TimeframeHistoryType } from "@/components/overview/HistoryPeriodSelector";
 import { cn } from "@/lib/utils";
 import CountUp from "react-countup";
+import { type NameType, type ValueType } from "recharts/types/component/DefaultTooltipContent";
 
 interface HistoryChartProps {
   data: HistoryData[] | undefined;
@@ -57,7 +58,7 @@ function HistoryChart({ data, timeframe }: HistoryChartProps) {
   );
 }
 
-function CustomTooltip({ active, payload, formatter }: any) {
+function CustomTooltip({ active, payload }: TooltipProps<ValueType, NameType>) {
   if (!active || !payload || payload.length === 0) return null;
 
   const data = payload[0].payload;
