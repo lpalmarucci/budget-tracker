@@ -9,7 +9,7 @@ import History from "@/components/overview/History";
 export default async function Home() {
   const session = await getSession();
 
-  if (!session) return redirect("/auth/signin");
+  if (!session) return;
 
   const userSettings = await db.userSettings.findFirst({
     where: { userId: session.user.id },

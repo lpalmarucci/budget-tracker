@@ -14,12 +14,11 @@ export async function updateUserCurrency({ userId, currency }: UserSettings): Pr
   }
 
   const session = await getSession();
-
   if (!session) redirect("/api/auth/sign-in");
 
   return db.userSettings.update({
     where: {
-      userId: session.user.id,
+      userId,
     },
     data: {
       currency,

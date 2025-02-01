@@ -22,7 +22,5 @@ export async function GET(request: Request) {
       },
     });
   }
-
-  revalidatePath("/");
   return Response.json(usersSettings);
 }

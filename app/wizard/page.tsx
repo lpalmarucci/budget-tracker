@@ -39,9 +39,11 @@ export default async function WizardPage() {
             <CurrencyComboBox />
           </CardContent>
         </Card>
-        <Link href="/" replace={true} className="w-full">
-          <Button className="w-full">I'm done! take me to the dashboard</Button>
-        </Link>
+        <Button className="w-full" asChild>
+          <Link href="/" className="w-full">
+            I'm done! take me to the dashboard
+          </Link>
+        </Button>
       </div>
       <Logo />
     </div>

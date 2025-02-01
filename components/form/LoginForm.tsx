@@ -40,6 +40,7 @@ function LoginForm() {
             variant: "destructive",
             duration: 2000,
           });
+          return;
         }
         router.push("/");
       })
@@ -49,6 +50,8 @@ function LoginForm() {
           variant: "destructive",
           duration: 2000,
         });
+      })
+      .finally(() => {
         setIsPending(false);
       });
   }
