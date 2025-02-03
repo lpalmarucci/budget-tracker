@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import SessionProvider from "@/components/providers/SessionProvider";
 import { getSession } from "@/auth";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerRoot } from "@/components/ui/sonner";
-import { TanstackProvider } from "@/components/providers/TanstackProvider";
+import RootProviders from "@/components/providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,15 +25,11 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <SessionProvider session={session}>
-          <TanstackProvider>
-            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-              <Toaster />
-              <SonnerRoot />
-              {children}
-            </ThemeProvider>
-          </TanstackProvider>
-        </SessionProvider>
+        <RootProviders session={session}>
+          <Toaster />
+          <SonnerRoot />
+          {children}
+        </RootProviders>
       </body>
     </html>
   );
