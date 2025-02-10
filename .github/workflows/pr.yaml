@@ -13,12 +13,7 @@ permissions:
 
 jobs:
   install_deps:
-    name: Run Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Use CI action
-        uses: ./.github/workflows/ci
+    uses: ./.github/workflows/ci
 
   lint:
     name: Validate PR title
