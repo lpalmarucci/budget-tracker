@@ -1,5 +1,5 @@
 name: PR
-description: Run tests on pull request
+description: Validate PR
 
 on:
   pull_request:
@@ -12,12 +12,12 @@ permissions:
   pull-requests: read
 
 jobs:
-  install-deps:
+  install_deps:
     name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: Use Build action
+      - name: Use CI action
         uses: ./.github/workflows/ci
 
   lint:
