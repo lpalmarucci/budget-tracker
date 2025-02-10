@@ -1,7 +1,7 @@
-// generator client {
-//   provider        = "prisma-client-js"
-//   previewFeatures = ["driverAdapters"]
-// }
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
 
 datasource db {
   provider = "postgresql"
@@ -36,15 +36,14 @@ model Category {
 }
 
 model Transaction {
-  id          String   @id @default(uuid())
-  amount      Float
-  description String
-  date        DateTime
-  userId      String
-  type        String   @default("income")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
+  id           String   @id @default(uuid())
+  amount       Float
+  description  String
+  date         DateTime
+  userId       String
+  type         String   @default("income")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   category     String
   categoryIcon String?
 }
