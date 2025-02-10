@@ -1,0 +1,29 @@
+name: PR
+description: Run tests on pull request
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  install-deps:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Use Build action
+        uses: ./.github/workflows/ci
+
+  lint:
+    name: Validate PR title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
