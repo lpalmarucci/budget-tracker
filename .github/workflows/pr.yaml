@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   install_deps:
-    uses: ./.github/workflows/ci
+    uses: ./.github/workflows/ci.yaml
 
   lint:
     name: Validate PR title
