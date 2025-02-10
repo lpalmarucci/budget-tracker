@@ -12,8 +12,25 @@ permissions:
   pull-requests: read
 
 jobs:
-  install_deps:
-    uses: ./.github/workflows/ci.yaml
+  install-deps:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 18, 20, 22 ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
 
   lint:
     name: Validate PR title
