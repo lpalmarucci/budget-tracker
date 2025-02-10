@@ -1,21 +1,13 @@
-import { getSession } from "@/auth";
-import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import CreateTransactionDialog from "@/components/CreateTransactionDialog";
-import db from "@/lib/db";
 import { Overview } from "@/components/overview/Overview";
 import History from "@/components/overview/History";
+import { getSession } from "@/auth";
 
 export default async function Home() {
   const session = await getSession();
 
   if (!session) return;
-
-  const userSettings = await db.userSettings.findFirst({
-    where: { userId: session.user.id },
-  });
-
-  if (!userSettings) return redirect("/wizard");
 
   return (
     <div className="h-full bg-card">

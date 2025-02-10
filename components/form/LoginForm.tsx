@@ -42,7 +42,7 @@ function LoginForm() {
           });
           return;
         }
-        router.push("/");
+        router.push("/wizard");
       })
       .catch((err: any) => {
         toast({
