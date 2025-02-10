@@ -8,7 +8,7 @@ on:
 
 jobs:
   install-deps:
-    name: Run Tests
+    name: Install dependences
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,5 +24,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - uses: oven-sh/setup-bun@v2
       - name: Install dependencies
-        run: npm install
+        run: bun install
