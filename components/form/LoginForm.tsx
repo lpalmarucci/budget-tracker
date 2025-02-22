@@ -40,6 +40,7 @@ function LoginForm() {
             variant: "destructive",
             duration: 2000,
           });
+          setIsPending(false);
           return;
         }
         router.push("/wizard");
