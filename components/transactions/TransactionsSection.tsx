@@ -6,8 +6,8 @@ import { DateRange } from "react-day-picker";
 import { subMonths } from "date-fns";
 import { TransactionsTable } from "@/components/transactions/table";
 import { columns } from "@/components/transactions/table/columns";
-import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getTransactions } from "@/features/transactions/transactions.service";
 
 function TransactionsSection() {
   const [date, setDate] = useState<DateRange>({
@@ -15,13 +15,7 @@ function TransactionsSection() {
     to: new Date(),
   });
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["transactions", date],
-    queryFn: () =>
-      fetch(`/api/transactions?from=${date.from?.toUTCString()}&to=${date.to?.toUTCString()}`).then((res) =>
-        res.json(),
-      ),
-  });
+  const { data, isFetching } = getTransactions(date);
 
   const tableColumns = useMemo(
     () =>
