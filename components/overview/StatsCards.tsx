@@ -3,9 +3,9 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency } from "@/lib/utils";
 import { TrendingDown, TrendingUp, Wallet } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import { GetBalanceStatusType } from "@/app/api/stats/balance/route";
 import CountUp from "react-countup";
+import { useOverviewStats } from "@/features/overview/stats.api";
 
 interface StatsCardsProps {
   from?: Date;
@@ -13,11 +13,7 @@ interface StatsCardsProps {
 }
 
 function StatsCards({ from, to }: StatsCardsProps) {
-  const { data, isFetching } = useQuery<GetBalanceStatusType>({
-    queryKey: ["overview", "stats", from, to],
-    queryFn: () =>
-      fetch(`/api/stats/balance?from=${from?.toUTCString()}&to=${to?.toUTCString()}`).then((res) => res.json()),
-  });
+  const { data, isFetching } = useOverviewStats(from, to);
 
   function calculateBalance(data: GetBalanceStatusType | undefined): number {
     if (!data) return 0;

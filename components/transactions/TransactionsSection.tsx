@@ -7,7 +7,7 @@ import { subMonths } from "date-fns";
 import { TransactionsTable } from "@/components/transactions/table";
 import { columns } from "@/components/transactions/table/columns";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getTransactions } from "@/features/transactions/transactions.service";
+import { useTransactions } from "@/features/transactions.api";
 
 function TransactionsSection() {
   const [date, setDate] = useState<DateRange>({
@@ -15,7 +15,7 @@ function TransactionsSection() {
     to: new Date(),
   });
 
-  const { data, isFetching } = getTransactions(date);
+  const { data, isFetching } = useTransactions(date);
 
   const tableColumns = useMemo(
     () =>

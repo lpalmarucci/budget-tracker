@@ -17,6 +17,7 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "@/components/ui/calendar";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
+import { OVERVIEW_QUERY_KEY } from "@/features/overview/overview.api";
 
 interface TransactionFormProps {
   type: TransactionType;
@@ -48,7 +49,7 @@ export function TransactionForm({ type, onTransactionCreated }: TransactionFormP
       });
       form.reset();
 
-      queryClient.invalidateQueries({ queryKey: ["overview"] });
+      queryClient.invalidateQueries({ queryKey: [OVERVIEW_QUERY_KEY] });
       onTransactionCreated?.();
     },
     onError: (err) => {
