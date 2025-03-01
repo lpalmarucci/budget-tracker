@@ -10,10 +10,11 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CURRENCIES, Currency } from "@/lib/currencies";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { updateUserCurrency } from "@/lib/actions/userSettings";
 import { UserSettings } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { useUserSettings } from "@/features/user-settings.api";
 
 export function CurrencyComboBox() {
   const [open, setOpen] = React.useState(false);
@@ -22,10 +23,7 @@ export function CurrencyComboBox() {
   const { toast } = useToast();
   const session = useSession();
 
-  const { data, isFetching, isFetched } = useQuery<UserSettings>({
-    queryKey: ["userSettings"],
-    queryFn: () => fetch("/api/user-settings").then((res) => res.json()),
-  });
+  const { data, isFetching } = useUserSettings();
 
   const mutation = useMutation({
     mutationFn: updateUserCurrency,
