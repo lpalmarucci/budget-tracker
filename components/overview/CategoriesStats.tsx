@@ -1,6 +1,5 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { Progress } from "@/components/ui/progress";
 import * as React from "react";
 import { TransactionType } from "@/lib/types";
@@ -8,6 +7,7 @@ import { CategoriesStatsResponseType } from "@/app/api/stats/category/route";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
+import { getStatsByCategory } from "@/services/stats.service";
 
 interface CategoriesStatsProps {
   from?: Date;
@@ -15,11 +15,7 @@ interface CategoriesStatsProps {
 }
 
 function CategoriesStats({ from, to }: CategoriesStatsProps) {
-  const { data: statsQuery, isFetching } = useQuery<CategoriesStatsResponseType>({
-    queryKey: ["overview", "category", from, to],
-    queryFn: () =>
-      fetch(`/api/stats/category?from=${from?.toUTCString()}&to=${to?.toUTCString()}`).then((res) => res.json()),
-  });
+  const { data: statsQuery, isFetching } = getStatsByCategory(from, to);
 
   return (
     <div className="w-full flex gap-4 flex-wrap md:flex-nowrap">

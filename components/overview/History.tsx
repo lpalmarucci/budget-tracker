@@ -3,12 +3,12 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { addYears, subYears } from "date-fns";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import HistoryPeriodSelector, {
   PeriodHistoryType,
   TimeframeHistoryType,
 } from "@/components/overview/HistoryPeriodSelector";
 import HistoryChart from "@/components/overview/HistoryChart";
+import { getHistoryData } from "@/services/overview/history.service";
 
 function getYearsOption() {
   const now = new Date();
@@ -22,11 +22,7 @@ function History() {
     month: new Date().getUTCMonth(),
   });
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["overview", "history", timeframe, period],
-    queryFn: () =>
-      fetch(`/api/history?timeframe=${timeframe}&year=${period.year}&month=${period.month}`).then((res) => res.json()),
-  });
+  const { data, isFetching } = getHistoryData(timeframe, period);
 
   return (
     <div className="flex flex-col gap-2">

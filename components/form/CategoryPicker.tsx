@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { ChevronsUpDown } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import { Category } from "@prisma/client";
 import * as React from "react";
 import { useState } from "react";
 import CreateCategoryDialog from "@/components/CreateCategoryDialog";
 import { TransactionType } from "@/lib/types";
 import { Skeleton } from "../ui/skeleton";
+import { getCategoryStats } from "@/services/overview/category.service";
 
 interface CategoryPickerProps {
   type: TransactionType;
@@ -19,10 +19,7 @@ interface CategoryPickerProps {
 }
 
 function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
-  const { data, isFetching } = useQuery<Category[]>({
-    queryKey: ["categories", type],
-    queryFn: () => fetch(`/api/categories?type=${type}`).then((res) => res.json()),
-  });
+  const { data, isFetching } = getCategoryStats(type);
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState("");
 
@@ -31,7 +28,6 @@ function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
   React.useEffect(() => {
     onSelectCategory(selectedCategory);
   }, [selectedCategory]);
-
 
   if (isFetching) return <Skeleton className="w-[200px] h-[40px]" />;
 
@@ -48,9 +44,11 @@ function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
-        <Command onSubmit={(e) => {
-          e.stopPropagation()
-        }}>
+        <Command
+          onSubmit={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <CommandInput placeholder="Search category..." />
           <CreateCategoryDialog
             type={type}

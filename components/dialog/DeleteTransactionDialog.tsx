@@ -14,6 +14,7 @@ import { type Dispatch, type PropsWithChildren, type SetStateAction } from "reac
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteTransaction } from "@/lib/actions/transaction";
 import { toast } from "sonner";
+import { TRANSACTIONS_QUERY_KEY } from "@/services/transactions.service";
 
 interface AlertDialogProps extends PropsWithChildren {
   transactionId: string;
@@ -32,7 +33,7 @@ function DeleteTransactionDialog({ transactionId, open, setOpen, children }: Ale
       });
 
       await queryClient.invalidateQueries({
-        queryKey: ["transactions"],
+        queryKey: [TRANSACTIONS_QUERY_KEY],
       });
     },
     onError: () => {
