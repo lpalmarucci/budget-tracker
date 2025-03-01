@@ -5,7 +5,7 @@ import { formatCurrency } from "@/lib/utils";
 import { TrendingDown, TrendingUp, Wallet } from "lucide-react";
 import { GetBalanceStatusType } from "@/app/api/stats/balance/route";
 import CountUp from "react-countup";
-import { useOverviewStats } from "@/features/overview/stats.api";
+import { getStatsByBalance } from "@/services/stats.service";
 
 interface StatsCardsProps {
   from?: Date;
@@ -13,7 +13,7 @@ interface StatsCardsProps {
 }
 
 function StatsCards({ from, to }: StatsCardsProps) {
-  const { data, isFetching } = useOverviewStats(from, to);
+  const { data, isFetching } = getStatsByBalance(from, to);
 
   function calculateBalance(data: GetBalanceStatusType | undefined): number {
     if (!data) return 0;

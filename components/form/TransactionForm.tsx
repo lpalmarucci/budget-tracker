@@ -17,7 +17,7 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "@/components/ui/calendar";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
-import { OVERVIEW_QUERY_KEY } from "@/features/overview/overview.api";
+import { OVERVIEW_QUERY_KEY } from "@/services/overview/overview.service";
 
 interface TransactionFormProps {
   type: TransactionType;

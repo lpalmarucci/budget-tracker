@@ -14,7 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import { updateUserCurrency } from "@/lib/actions/userSettings";
 import { UserSettings } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { useUserSettings } from "@/features/user-settings.api";
+import { useUserSettings } from "@/services/user-settings.service";
 
 export function CurrencyComboBox() {
   const [open, setOpen] = React.useState(false);

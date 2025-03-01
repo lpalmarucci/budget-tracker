@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { HistoryData } from "@/app/api/history/route";
 import { PeriodHistoryType, TimeframeHistoryType } from "@/components/overview/HistoryPeriodSelector";
-import { OVERVIEW_QUERY_KEY } from "@/features/overview/overview.api";
+import { OVERVIEW_QUERY_KEY } from "@/services/overview/overview.service";
 
 export const HISTORY_QUERY_KEY = "HISTORY";
 
-export function useHistory(timeframe: TimeframeHistoryType, period: PeriodHistoryType) {
+export function getHistoryData(timeframe: TimeframeHistoryType, period: PeriodHistoryType) {
   return useQuery<HistoryData[]>({
     queryKey: [OVERVIEW_QUERY_KEY, HISTORY_QUERY_KEY, timeframe, period],
     queryFn: () =>

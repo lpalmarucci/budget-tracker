@@ -8,7 +8,7 @@ import HistoryPeriodSelector, {
   TimeframeHistoryType,
 } from "@/components/overview/HistoryPeriodSelector";
 import HistoryChart from "@/components/overview/HistoryChart";
-import { useHistory } from "@/features/overview/history.api";
+import { getHistoryData } from "@/services/overview/history.service";
 
 function getYearsOption() {
   const now = new Date();
@@ -22,7 +22,7 @@ function History() {
     month: new Date().getUTCMonth(),
   });
 
-  const { data, isFetching } = useHistory(timeframe, period);
+  const { data, isFetching } = getHistoryData(timeframe, period);
 
   return (
     <div className="flex flex-col gap-2">

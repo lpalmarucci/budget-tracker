@@ -11,7 +11,7 @@ import { useState } from "react";
 import CreateCategoryDialog from "@/components/CreateCategoryDialog";
 import { TransactionType } from "@/lib/types";
 import { Skeleton } from "../ui/skeleton";
-import { useCategoryStats } from "@/features/overview/category.api";
+import { getCategoryStats } from "@/services/overview/category.service";
 
 interface CategoryPickerProps {
   type: TransactionType;
@@ -19,7 +19,7 @@ interface CategoryPickerProps {
 }
 
 function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
-  const { data, isFetching } = useCategoryStats(type);
+  const { data, isFetching } = getCategoryStats(type);
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState("");
 

@@ -7,7 +7,7 @@ import { subMonths } from "date-fns";
 import { TransactionsTable } from "@/components/transactions/table";
 import { columns } from "@/components/transactions/table/columns";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useTransactions } from "@/features/transactions.api";
+import { useTransactions } from "@/services/transactions.service";
 
 function TransactionsSection() {
   const [date, setDate] = useState<DateRange>({

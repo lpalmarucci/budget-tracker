@@ -7,7 +7,7 @@ import { CategoriesStatsResponseType } from "@/app/api/stats/category/route";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
-import { useStatsCategory } from "@/features/stats/category.api";
+import { getStatsByCategory } from "@/services/stats.service";
 
 interface CategoriesStatsProps {
   from?: Date;
@@ -15,7 +15,7 @@ interface CategoriesStatsProps {
 }
 
 function CategoriesStats({ from, to }: CategoriesStatsProps) {
-  const { data: statsQuery, isFetching } = useStatsCategory(from, to);
+  const { data: statsQuery, isFetching } = getStatsByCategory(from, to);
 
   return (
     <div className="w-full flex gap-4 flex-wrap md:flex-nowrap">
