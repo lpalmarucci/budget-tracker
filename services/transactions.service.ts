@@ -3,7 +3,7 @@ import { type DateRange } from "react-day-picker";
 
 export const TRANSACTIONS_QUERY_KEY = "transactions";
 
-export function useTransactions(date: DateRange) {
+export function getTransactions(date: DateRange) {
   return useQuery({
     queryKey: [TRANSACTIONS_QUERY_KEY, date],
     queryFn: () =>
