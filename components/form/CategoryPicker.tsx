@@ -11,7 +11,8 @@ import { useState } from "react";
 import CreateCategoryDialog from "@/components/CreateCategoryDialog";
 import { TransactionType } from "@/lib/types";
 import { Skeleton } from "../ui/skeleton";
-import { getCategoryStats } from "@/services/overview/category.service";
+import { CATEGORY_QUERY_KEY, getCategoryStats } from "@/services/overview/category.service";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface CategoryPickerProps {
   type: TransactionType;
@@ -21,9 +22,11 @@ interface CategoryPickerProps {
 function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
   const { data, isFetching } = getCategoryStats(type);
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState("");
+  const [category, setCategory] = useState("");
 
-  const selectedCategory = data?.find((c) => c.name === value) ?? null;
+  const query = useQueryClient();
+
+  const selectedCategory = data?.find((c) => c.name === category) ?? null;
 
   React.useEffect(() => {
     onSelectCategory(selectedCategory);
@@ -53,8 +56,10 @@ function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
           <CreateCategoryDialog
             type={type}
             onCreate={(newCategoryName: string) => {
-              setValue(newCategoryName);
-              setOpen(false);
+              query.invalidateQueries({ queryKey: [CATEGORY_QUERY_KEY, type] }).then(() => {
+                setCategory(newCategoryName);
+                setOpen(false);
+              });
             }}
           />
           <CommandList>
@@ -62,7 +67,7 @@ function CategoryPicker({ type, onSelectCategory }: CategoryPickerProps) {
             {data?.map((category) => (
               <CommandItem
                 onSelect={(val) => {
-                  setValue(val);
+                  setCategory(val);
                   setOpen(false);
                 }}
                 value={category.name}
