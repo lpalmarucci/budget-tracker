@@ -8,6 +8,7 @@ import { TransactionsTable } from "@/components/transactions/table";
 import { columns } from "@/components/transactions/table/columns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getTransactions } from "@/services/transactions.service";
+import { Section, SectionContent, SectionHeader } from "@/components/Section";
 
 function TransactionsSection() {
   const [date, setDate] = useState<DateRange>({
@@ -30,26 +31,24 @@ function TransactionsSection() {
   const tableData = useMemo(() => (isFetching ? Array(10).fill({}) : data), [isFetching, data]);
 
   return (
-    <div className="flex flex-col">
-      <div className="border-b bg-card">
-        <div className="container px-4 mx-auto w-full h-full flex flex-wrap justify-between items-center py-8">
-          <span className="text-2xl font-bold">Transactions history</span>
-          <DateRangePicker
-            initialDateFrom={date?.from}
-            initialDateTo={date?.to}
-            showCompare={false}
-            locale="it-IT"
-            onUpdate={(val) => {
-              if (!val) return;
-              setDate(val.range);
-            }}
-          />
-        </div>
-      </div>
-      <div className="container mx-auto">
+    <Section>
+      <SectionHeader>
+        <span className="text-2xl font-bold">Transactions history</span>
+        <DateRangePicker
+          initialDateFrom={date?.from}
+          initialDateTo={date?.to}
+          showCompare={false}
+          locale="it-IT"
+          onUpdate={(val) => {
+            if (!val) return;
+            setDate(val.range);
+          }}
+        />
+      </SectionHeader>
+      <SectionContent>
         <TransactionsTable from={date.from} to={date.to} columns={tableColumns} data={tableData} />
-      </div>
-    </div>
+      </SectionContent>
+    </Section>
   );
 }
 

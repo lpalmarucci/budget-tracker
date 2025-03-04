@@ -7,9 +7,5 @@ export default async function TransactionsPage() {
 
   if (!session) return redirect("/auth/signin");
 
-  return (
-    <div className="h-full bg-card">
-      <TransactionsSection />
-    </div>
-  );
+  return <TransactionsSection />;
 }
